@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Workflow Designer</title>
+    <link rel="stylesheet" href="styles/main.css">
+</head>
+<body>
+    <div class="app">
+        <header class="header">
+            <h1>Workflow Designer</h1>
+            <div class="toolbar">
+                <button id="newWorkflow" class="btn btn-primary">New</button>
+                <button id="saveWorkflow" class="btn btn-secondary">Save</button>
+                <button id="loadWorkflow" class="btn btn-secondary">Load</button>
+                <button id="exportWorkflow" class="btn btn-secondary">Export</button>
+            </div>
+        </header>
+
+        <div class="main-content">
+            <aside class="sidebar">
+                <h3>Workflow Nodes</h3>
+                <div class="node-palette">
+                    <div class="palette-node" data-type="start" draggable="true">
+                        <div class="node-icon start-icon">▶</div>
+                        <span>Start</span>
+                    </div>
+                    <div class="palette-node" data-type="process" draggable="true">
+                        <div class="node-icon process-icon">⚙</div>
+                        <span>Process</span>
+                    </div>
+                    <div class="palette-node" data-type="decision" draggable="true">
+                        <div class="node-icon decision-icon">?</div>
+                        <span>Decision</span>
+                    </div>
+                    <div class="palette-node" data-type="end" draggable="true">
+                        <div class="node-icon end-icon">⏹</div>
+                        <span>End</span>
+                    </div>
+                </div>
+            </aside>
+
+            <main class="canvas-container">
+                <svg id="canvas" class="workflow-canvas">
+                    <defs>
+                        <marker id="arrowhead" markerWidth="10" markerHeight="7" 
+                                refX="9" refY="3.5" orient="auto">
+                            <polygon points="0 0, 10 3.5, 0 7" fill="#666"/>
+                        </marker>
+                    </defs>
+                </svg>
+                <div id="canvasOverlay" class="canvas-overlay"></div>
+            </main>
+        </div>
+
+        <!-- Node Editor Modal -->
+        <div id="nodeEditor" class="modal hidden">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3>Edit Node</h3>
+                    <button class="modal-close">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <label for="nodeLabel">Label:</label>
+                    <input type="text" id="nodeLabel" placeholder="Enter node label">
+                    
+                    <label for="nodeDescription">Description:</label>
+                    <textarea id="nodeDescription" placeholder="Enter node description"></textarea>
+                    
+                    <div id="nodeTypeSpecific"></div>
+                </div>
+                <div class="modal-footer">
+                    <button id="saveNode" class="btn btn-primary">Save</button>
+                    <button id="deleteNode" class="btn btn-danger">Delete</button>
+                    <button class="modal-close btn btn-secondary">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script type="module" src="js/main.js"></script>
+</body>
+</html>

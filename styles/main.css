@@ -1,0 +1,424 @@
+/* Reset and base styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background-color: #f5f5f5;
+    color: #333;
+    height: 100vh;
+    overflow: hidden;
+}
+
+/* Layout */
+.app {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+}
+
+.header {
+    background: #2c3e50;
+    color: white;
+    padding: 1rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.header h1 {
+    font-size: 1.5rem;
+    font-weight: 600;
+}
+
+.toolbar {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.main-content {
+    display: flex;
+    flex: 1;
+    overflow: hidden;
+}
+
+/* Sidebar */
+.sidebar {
+    width: 250px;
+    background: white;
+    border-right: 1px solid #e0e0e0;
+    padding: 1rem;
+    overflow-y: auto;
+}
+
+.sidebar h3 {
+    margin-bottom: 1rem;
+    color: #555;
+    font-size: 1rem;
+}
+
+.node-palette {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.palette-node {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.75rem;
+    background: #f8f9fa;
+    border: 1px solid #e9ecef;
+    border-radius: 8px;
+    cursor: grab;
+    transition: all 0.2s ease;
+    user-select: none;
+}
+
+.palette-node:hover {
+    background: #e9ecef;
+    border-color: #3498db;
+    transform: translateY(-1px);
+}
+
+.palette-node:active {
+    cursor: grabbing;
+}
+
+.node-icon {
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.start-icon {
+    background: #27ae60;
+}
+
+.process-icon {
+    background: #3498db;
+}
+
+.decision-icon {
+    background: #f39c12;
+}
+
+.end-icon {
+    background: #e74c3c;
+}
+
+/* Canvas */
+.canvas-container {
+    flex: 1;
+    position: relative;
+    background: 
+        radial-gradient(circle, #ccc 1px, transparent 1px);
+    background-size: 20px 20px;
+    overflow: hidden;
+}
+
+.workflow-canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+}
+
+.canvas-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 2;
+    pointer-events: none;
+}
+
+/* Workflow Nodes */
+.workflow-node {
+    position: absolute;
+    background: white;
+    border: 2px solid #ddd;
+    border-radius: 12px;
+    padding: 1rem;
+    min-width: 120px;
+    cursor: move;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    transition: all 0.2s ease;
+    pointer-events: all;
+    z-index: 10;
+}
+
+.workflow-node:hover {
+    border-color: #3498db;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+.workflow-node.selected {
+    border-color: #3498db;
+    box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2);
+}
+
+.workflow-node.start {
+    border-color: #27ae60;
+}
+
+.workflow-node.process {
+    border-color: #3498db;
+}
+
+.workflow-node.decision {
+    border-color: #f39c12;
+    border-radius: 0;
+    transform: rotate(45deg);
+}
+
+.workflow-node.decision .node-content {
+    transform: rotate(-45deg);
+}
+
+.workflow-node.end {
+    border-color: #e74c3c;
+}
+
+.node-header {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.node-content {
+    text-align: center;
+}
+
+.node-label {
+    font-weight: 600;
+    color: #2c3e50;
+    font-size: 0.9rem;
+}
+
+.node-description {
+    font-size: 0.8rem;
+    color: #666;
+    margin-top: 0.25rem;
+}
+
+/* Connection points */
+.connection-point {
+    position: absolute;
+    width: 12px;
+    height: 12px;
+    background: #3498db;
+    border: 2px solid white;
+    border-radius: 50%;
+    cursor: crosshair;
+    z-index: 15;
+}
+
+.connection-point.input {
+    top: -6px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.connection-point.output {
+    bottom: -6px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.connection-point:hover {
+    background: #2980b9;
+    transform: translateX(-50%) scale(1.2);
+}
+
+/* Connections */
+.connection {
+    stroke: #666;
+    stroke-width: 2;
+    fill: none;
+    marker-end: url(#arrowhead);
+}
+
+.connection.selected {
+    stroke: #3498db;
+    stroke-width: 3;
+}
+
+/* Buttons */
+.btn {
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    font-weight: 500;
+    transition: all 0.2s ease;
+}
+
+.btn-primary {
+    background: #3498db;
+    color: white;
+}
+
+.btn-primary:hover {
+    background: #2980b9;
+}
+
+.btn-secondary {
+    background: #95a5a6;
+    color: white;
+}
+
+.btn-secondary:hover {
+    background: #7f8c8d;
+}
+
+.btn-danger {
+    background: #e74c3c;
+    color: white;
+}
+
+.btn-danger:hover {
+    background: #c0392b;
+}
+
+/* Modal */
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+
+.modal.hidden {
+    display: none;
+}
+
+.modal-content {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.25);
+    width: 90%;
+    max-width: 500px;
+    max-height: 80%;
+    overflow: hidden;
+}
+
+.modal-header {
+    padding: 1.5rem 2rem 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.modal-header h3 {
+    color: #2c3e50;
+}
+
+.modal-close {
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    color: #999;
+    cursor: pointer;
+    padding: 0;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.modal-close:hover {
+    color: #666;
+}
+
+.modal-body {
+    padding: 1.5rem 2rem;
+}
+
+.modal-body label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+    color: #555;
+}
+
+.modal-body input,
+.modal-body textarea {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    margin-bottom: 1rem;
+}
+
+.modal-body textarea {
+    resize: vertical;
+    min-height: 80px;
+}
+
+.modal-footer {
+    padding: 1rem 2rem 1.5rem;
+    display: flex;
+    gap: 0.5rem;
+    justify-content: flex-end;
+    border-top: 1px solid #e0e0e0;
+}
+
+/* Drag and drop states */
+.drag-over {
+    background-color: rgba(52, 152, 219, 0.1);
+}
+
+.dragging {
+    opacity: 0.7;
+    transform: rotate(5deg);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .sidebar {
+        width: 200px;
+    }
+    
+    .header {
+        padding: 0.75rem 1rem;
+    }
+    
+    .header h1 {
+        font-size: 1.25rem;
+    }
+    
+    .toolbar {
+        gap: 0.25rem;
+    }
+    
+    .btn {
+        padding: 0.4rem 0.8rem;
+        font-size: 0.8rem;
+    }
+}
